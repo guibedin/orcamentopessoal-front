@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import $ from 'jquery';
 
 class Form extends Component {
 
@@ -9,8 +10,10 @@ class Form extends Component {
         this.initialState = {            
             descricao: '',
             valor: 0,
-            data: '',
-            tipo: 0            
+            dataInicial: '',
+            duracao: 0,
+            isEntrada: false,
+            isFixa: false
         }
 
         this.state = this.initialState;
@@ -18,69 +21,170 @@ class Form extends Component {
 
     handleChange = event => {
 
-        const {name, value} = event.target;
+        const {name, value} = event.target;        
         
-        this.setState({
-            [name]: value
-        });
+        if(name === "duracao" || name === "valor") {
+            //console.log(name, value);
+            this.setState({
+                [name]: parseInt(value)
+            });
+        } if(name === "isEntrada" || name === "isFixa") {
+            this.setState({
+                [name]: (value === "true")
+            })
+        } else {
+            this.setState({
+                [name]: value
+            });
+        }            
+    }
+
+    handleSubmit = conta => {
+        
+        //console.log(conta);
+
+        const url = "http://localhost:8080/contas/nova";
+        var fetchParams = {
+            method: 'POST', 
+            body: JSON.stringify(conta), 
+            headers: {"Content-Type": 'application/json'}
+        };
+        
+        fetch(url, fetchParams)
+            .then(response => {
+                //console.log(response);
+                if(response.ok) {
+                    alert('Conta adicionada com sucesso!');
+                    this.setState(this.initialState);
+                    $("#isEntrada").val("false");
+                    $("#isFixa").val("false");               
+                }
+                else {
+                    alert('Erro ao adicionar conta!');
+                    //console.log(response.statusText)                
+                }
+            })
+            .catch(error => {
+                console.log("Error: " + error.message)                
+            });                    
+    }
+
+    renderDuracao() {
+
+        const {dataInicial, duracao, isFixa} = this.state;
+
+        if(isFixa) {
+
+            return(
+                <div className="form-row">                       
+                    <div className="form-group col-md-6">
+                        <label htmlFor="dataInicial">Data inicial</label>
+                        <input 
+                            type="date" 
+                            name="dataInicial" 
+                            id="dataInicial"
+                            value={dataInicial} 
+                            onChange={this.handleChange}
+                            className="form-control"   
+                        />
+                    </div>
+            
+                    <div className="form-group col-md-6">
+                        <label htmlFor="duracao">Duração, em meses (>= 2)</label>
+                        <input 
+                            type="text" 
+                            name="duracao" 
+                            id="duracao"
+                            value={duracao} 
+                            onChange={this.handleChange}
+                            className="form-control"   
+                        />
+                    </div>
+                </div>
+            )
+        } else {
+
+            return(
+                <div className="form-row">
+                    <div className="form-group col-md-6">
+                        <label htmlFor="dataInicial">Data</label>
+                        <input 
+                            type="date" 
+                            name="dataInicial" 
+                            id="dataInicial"
+                            value={dataInicial} 
+                            onChange={this.handleChange}
+                            className="form-control"   
+                        />
+                    </div>
+                </div>
+            );
+        }          
     }
 
     submitForm = () => {
-        this.props.handleSubmit(this.state);
-        this.setState(this.initialState);
+        this.handleSubmit(this.state);
     }
 
     render() {
 
-        const {descricao, valor, data, tipo} = this.state;
+        const {descricao, valor} = this.state;
 
         return (
-            <form>
-                <div className="form-group">
-                    <label for="descricao">Descrição</label>
-                    <input 
-                        type="text" 
-                        name="descricao"
-                        id="descricao"
-                        value={descricao} 
-                        onChange={this.handleChange}
-                        className="form-control"                        
-                    />
-                </div>
+            <div>
+                
+                <h5>Adicionar nova conta</h5> 
+                         
+                <form>
+                    <div className="form-row">
+                        <div className="form-group col-md-6">
+                            <label htmlFor="descricao">Descrição</label>
+                            <input 
+                                type="text" 
+                                name="descricao"
+                                id="descricao"
+                                value={descricao} 
+                                onChange={this.handleChange}
+                                className="form-control"                        
+                            />
+                        </div>
+                        
+                        <div className="form-group col-md-6">
+                            <label htmlFor="valor">Valor</label>
+                            <input 
+                                type="text" 
+                                name="valor"
+                                id="valor"
+                                value={valor} 
+                                onChange={this.handleChange}
+                                className="form-control"   
+                            />
+                        </div>                    
+                    </div>                    
+                    
+                    { this.renderDuracao() }
 
-                <div className="form-group">
-                    <label for="valor">Valor</label>
-                    <input 
-                        type="text" 
-                        name="valor"
-                        id="valor"
-                        value={valor} 
-                        onChange={this.handleChange}
-                        className="form-control"   
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label for="data">Data</label>
-                    <input 
-                        type="date" 
-                        name="data" 
-                        id="data"
-                        value={data} 
-                        onChange={this.handleChange}
-                        className="form-control"   
-                    />
-                </div>
-
-                <div className="form-group">
-                    <label for="tipo">Tipo</label>
-                    <select className="custom-select" name="tipo" id="tipo" onChange={this.handleChange}> 
-                        <option value="1">Fixa</option>
-                        <option value="2">Variável</option>
-                    </select> 
-                </div>
-                <input type="button" className="btn btn-primary" value="Submit" onClick={this.submitForm} />
-            </form>
+                    <div className="form-row">
+                        <div className="form-group col-md-6">
+                            <label htmlFor="isFixa">Fixa/Variável</label>
+                            <select className="custom-select" name="isFixa" id="isFixa" onChange={this.handleChange}> 
+                                <option value="false">Variável</option>
+                                <option value="true">Fixa</option>
+                            </select> 
+                        </div>
+                    
+                        <div className="form-group col-md-6">
+                            <label htmlFor="isEntrada">Entrada/Saida</label>
+                            <select className="custom-select" name="isEntrada" id="isEntrada" onChange={this.handleChange}> 
+                                <option value="false">Saida</option>
+                                <option value="true">Entrada</option>
+                            </select> 
+                        </div>
+                    </div>
+                    
+                    <input type="button" className="btn btn-primary" value="Submit" onClick={this.submitForm} />
+                </form>
+            </div>
         );
     }
 }
