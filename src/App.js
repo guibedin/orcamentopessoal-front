@@ -7,6 +7,10 @@ import {Route, Link} from 'react-router-dom';
 
 class App extends Component {
 
+    componentDidMount() {
+
+        console.log(this.props.history);
+    }
     render() {
         
         

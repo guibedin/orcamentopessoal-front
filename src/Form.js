@@ -13,12 +13,12 @@ class Form extends Component {
             dataInicial: '',
             duracao: 0,
             isEntrada: false,
-            isFixa: false
+            isFixa: false,
         }
 
         this.state = this.initialState;
     }
-
+    
     handleChange = event => {
 
         const {name, value} = event.target;        
