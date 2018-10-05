@@ -7,7 +7,7 @@ class Cadastrar extends Component {
         super();
 
         this.initialState = {
-            usuario: '',
+            nome: '',
             senha: '',
             senhaRepetida: '',
             email: ''
@@ -20,19 +20,45 @@ class Cadastrar extends Component {
         this.setState({[evento.target.name]: evento.target.value})
     }
 
-    cadastrarUsuario = () => {
+    cadastrarUsuario = evento => {
 
-        const {usuario, email, senha, senhaRepetida} = this.state;
+        evento.preventDefault();
+
+        const {nome, email, senha, senhaRepetida} = this.state;
+        const url = new URL("http://localhost:8080/usuario/cadastrar/");
+        
+        const fetchParams = {
+            method: 'POST', 
+            body: JSON.stringify(this.state), 
+            headers: {"Content-Type": 'application/json'}
+        };
 
         if(senha !== senhaRepetida) {
             alert('As senhas devem ser iguais!');
+        } else {
+
+            fetch(url, fetchParams)
+                .then(response => {
+                    if(response.ok) {
+                        alert('Usuário cadastrado com sucesso, por favor faça login')
+                        console.log(response.text());
+                    }
+                    else {
+                        throw new Error(response.text());
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
         }
-        console.log(usuario, email, senha, senhaRepetida);
+        
+        
+        console.log(nome, email, senha, senhaRepetida);
     }
 
     render() {
 
-        const {usuario, email, senha, senhaRepetida} = this.state;
+        const {nome, email, senha, senhaRepetida} = this.state;
 
         if(localStorage.getItem("auth-token") !== null) {
             alert("Você já está logado!");
@@ -47,8 +73,8 @@ class Cadastrar extends Component {
                 <form>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label htmlFor="usuario">Usuario</label>
-                            <input type="text" name="usuario" id="usuario" className="form-control" value={usuario} onChange={this.handleChange}/>                        
+                            <label htmlFor="usuario">Usuário/ID</label>
+                            <input placeholder="Identificador utilizado para entrar no sistema, não pode conter espaços" type="text" name="nome" id="nome" className="form-control" value={nome} onChange={this.handleChange}/>                        
                         </div>
                     </div>
                     <div className="form-row">
