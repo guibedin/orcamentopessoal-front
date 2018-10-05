@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 
 class Logout extends Component {
 
@@ -8,13 +9,13 @@ class Logout extends Component {
 
     componentWillMount() {
         console.log("teste")
-        localStorage.removeItem("auth-token");   
+        localStorage.removeItem("auth-token");
     }
 
     render() {
 
         return(
-            <h5>Logout realizado.</h5>
+            <Redirect to="/login"/>
         );
     }
 }

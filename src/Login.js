@@ -6,21 +6,37 @@ class Login extends Component {
     constructor() {
         super();
 
-        this.initialState = {usuario: '', senha: ''};
+        this.initialState = {usuario: '', senha: '', redirect: false};
         this.state = this.initialState;
+    }
+
+    componentDidMount() {
+
+        if(this.isLogado()) {
+            this.setState({redirect: true});
+        } else {
+            this.setState({redirect: false});
+        }
     }
 
     handleChange = event => {
         this.setState({[event.target.name]: event.target.value});
     }
 
-    efetuaLogin = event => {
+    isLogado = () => {
 
+        if(localStorage.getItem("auth-token") !== null) {
+            return true;
+        }
+        return false;
+    }
+
+    efetuaLogin = event => {
 
         event.preventDefault();
 
         localStorage.setItem("auth-token", "token");
-        
+        this.setState({redirect: true});
         const url = "http://localhost:8080/login";
         var fetchParams = {
             method: 'POST', 
@@ -50,11 +66,9 @@ class Login extends Component {
 
     render() {
 
-        const {usuario, senha} = this.state;
+        const {usuario, senha, redirect} = this.state;
 
-        if(localStorage.getItem("auth-token") !== null) {
-            alert("Você já está logado!");
-
+        if(redirect) {            
             return(<Redirect to="/contas/lista"/>)
         } else {
             return (
