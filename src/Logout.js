@@ -8,7 +8,6 @@ class Logout extends Component {
     }
 
     componentWillMount() {
-        console.log("teste")
         localStorage.removeItem("auth-token");
     }
 

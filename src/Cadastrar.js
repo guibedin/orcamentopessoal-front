@@ -7,9 +7,9 @@ class Cadastrar extends Component {
         super();
 
         this.initialState = {
-            nome: '',
-            senha: '',
-            senhaRepetida: '',
+            username: '',
+            password: '',
+            passwordRepetida: '',
             email: ''
         };
 
@@ -24,7 +24,7 @@ class Cadastrar extends Component {
 
         evento.preventDefault();
 
-        const {nome, email, senha, senhaRepetida} = this.state;
+        const {username, email, password, passwordRepetida} = this.state;
         const url = new URL("http://localhost:8080/usuario/cadastrar/");
         
         const fetchParams = {
@@ -33,8 +33,8 @@ class Cadastrar extends Component {
             headers: {"Content-Type": 'application/json'}
         };
 
-        if(senha !== senhaRepetida) {
-            alert('As senhas devem ser iguais!');
+        if(password !== passwordRepetida) {
+            alert('As passwords devem ser iguais!');
         } else {
 
             fetch(url, fetchParams)
@@ -53,12 +53,12 @@ class Cadastrar extends Component {
         }
         
         
-        console.log(nome, email, senha, senhaRepetida);
+        console.log(username, email, password, passwordRepetida);
     }
 
     render() {
 
-        const {nome, email, senha, senhaRepetida} = this.state;
+        const {username, email, password, passwordRepetida} = this.state;
 
         if(localStorage.getItem("auth-token") !== null) {
             alert("Você já está logado!");
@@ -74,7 +74,7 @@ class Cadastrar extends Component {
                     <div className="form-row">
                         <div className="form-group col-md-6">
                             <label htmlFor="usuario">Usuário/ID</label>
-                            <input placeholder="Identificador utilizado para entrar no sistema, não pode conter espaços" type="text" name="nome" id="nome" className="form-control" value={nome} onChange={this.handleChange}/>                        
+                            <input placeholder="Identificador utilizado para entrar no sistema, não pode conter espaços" type="text" name="username" id="username" className="form-control" value={username} onChange={this.handleChange}/>                        
                         </div>
                     </div>
                     <div className="form-row">
@@ -85,14 +85,14 @@ class Cadastrar extends Component {
                     </div>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label htmlFor="senha">Senha</label>
-                            <input type="password" name="senha" id="senha" className="form-control" value={senha} onChange={this.handleChange}/>
+                            <label htmlFor="password">Senha</label>
+                            <input type="password" name="password" id="password" className="form-control" value={password} onChange={this.handleChange}/>
                         </div>                    
                     </div>
                     <div className="form-row">
                         <div className="form-group col-md-6">
-                            <label htmlFor="senhaRepetida">Confirmar Senha</label>
-                            <input type="password" name="senhaRepetida" id="senhaRepetida" className="form-control" value={senhaRepetida} onChange={this.handleChange}/>
+                            <label htmlFor="passwordRepetida">Confirmar senha</label>
+                            <input type="password" name="passwordRepetida" id="passwordRepetida" className="form-control" value={passwordRepetida} onChange={this.handleChange}/>
                         </div>                    
                     </div>
                     

@@ -23,7 +23,7 @@ class Table extends Component {
             anoInicial: 0,
             mesFinal: 0,
             anoFinal: 0,
-            filtro: "tudo"
+            filtro: "tudo"            
         }
         this.state = this.initialState;
         
@@ -54,11 +54,14 @@ class Table extends Component {
 
     fetchContas = (url) => {
         
-        fetch(url)
+        const fetchHeader = new Headers({'Authorization': 'Bearer ' + localStorage.getItem("auth-token")});
+        //const fetchHeader = new Headers({'Authorization': 'Bearer guibedin'});
+        
+        fetch(url, {headers: fetchHeader})
             .then(response => {
                 if(response.ok) {
                     return response.json();
-                } else {
+                } else {                    
                     return null;
                 }
             })
@@ -76,7 +79,10 @@ class Table extends Component {
                             saldo: response.saldo
                         }]
                     });   
-                }                                             
+                }
+            })
+            .catch(error => {
+                console.log(error);
             });
     }               
 

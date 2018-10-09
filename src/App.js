@@ -20,7 +20,6 @@ class App extends Component {
     
     renderLogado = () => {
     
-        console.log("Logado");
         return (
             <nav className="navbar navbar-light bg-light row"> 
                 <Link className="navbar-brand" to="/contas/lista">Listar contas</Link>
@@ -32,7 +31,6 @@ class App extends Component {
     
     renderNaoLogado = () => {
         
-        console.log("NaoLogado");
         return (
             <nav className="navbar navbar-light bg-light row"> 
                 <Link className="navbar-brand" to="/login">Login</Link>                                    

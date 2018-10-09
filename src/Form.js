@@ -44,10 +44,15 @@ class Form extends Component {
         //console.log(conta);
 
         const url = "http://localhost:8080/contas/nova";
+        const fetchHeader = new Headers({
+            "Content-Type": 'application/json',
+            "Authorization": 'Bearer ' + localStorage.getItem("auth-token")
+        });
+        
         var fetchParams = {
             method: 'POST', 
             body: JSON.stringify(conta), 
-            headers: {"Content-Type": 'application/json'}
+            headers: fetchHeader
         };
         
         fetch(url, fetchParams)

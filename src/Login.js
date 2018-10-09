@@ -6,7 +6,7 @@ class Login extends Component {
     constructor() {
         super();
 
-        this.initialState = {usuario: '', senha: '', redirect: false};
+        this.initialState = {username: '', password: '', redirect: false};
         this.state = this.initialState;
     }
 
@@ -35,18 +35,21 @@ class Login extends Component {
 
         event.preventDefault();
 
-        localStorage.setItem("auth-token", "token");
-        this.setState({redirect: true});
-        const url = "http://localhost:8080/login";
+        //localStorage.setItem("auth-token", "token");
+        //this.setState({redirect: true});
+        
+        const url = new URL("http://localhost:8080/usuario/login/");
+        const usuario = {username: this.state.username, password: this.state.password};
+
         var fetchParams = {
             method: 'POST', 
-            body: JSON.stringify(this.state), 
+            body: JSON.stringify(usuario), 
             headers: {"Content-Type": 'application/json'}
         };
-        /*
+        
         fetch(url, fetchParams)
             .then(response => {
-
+                console.log(response);
                 if(response.ok) {
                     return response.text();                    
                 } else {
@@ -54,19 +57,21 @@ class Login extends Component {
                 }
             })
             .then(token => {
-                console.log(token);
+                console.log("jwt token: " + token);
                 localStorage.setItem("auth-token", token);
+                this.setState({redirect: true});
             })
             .catch(error => {
+                alert(error);
                 console.log(error);
             })
-            */
-        console.log(url, fetchParams, localStorage.getItem("auth-token"));
+        
+        //console.log(url, fetchParams, localStorage.getItem("auth-token"));
     }
 
     render() {
 
-        const {usuario, senha, redirect} = this.state;
+        const {username, password, redirect} = this.state;
 
         if(redirect) {            
             return(<Redirect to="/contas/lista"/>)
@@ -79,14 +84,14 @@ class Login extends Component {
                     <form>
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label htmlFor="usuario">Usuario</label>
-                                <input type="text" name="usuario" id="usuario" className="form-control" value={usuario} onChange={this.handleChange}/>                        
+                                <label htmlFor="username">Usuario</label>
+                                <input type="text" name="username" id="username" className="form-control" value={username} onChange={this.handleChange}/>                        
                             </div>
                         </div>
                         <div className="form-row">
                             <div className="form-group col-md-6">
-                                <label htmlFor="senha">Senha</label>
-                                <input type="password" name="senha" id="senha" className="form-control" value={senha} onChange={this.handleChange}/>
+                                <label htmlFor="password">Senha</label>
+                                <input type="password" name="password" id="password" className="form-control" value={password} onChange={this.handleChange}/>
                             </div>                    
                         </div>
                         
