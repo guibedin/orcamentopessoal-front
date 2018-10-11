@@ -56,7 +56,8 @@ class Table extends Component {
         
         const fetchHeader = new Headers({'Authorization': 'Bearer ' + localStorage.getItem("auth-token")});
         //const fetchHeader = new Headers({'Authorization': 'Bearer guibedin'});
-        
+        //console.log(fetchHeader.get("Authorization"));
+
         fetch(url, {headers: fetchHeader})
             .then(response => {
                 if(response.ok) {

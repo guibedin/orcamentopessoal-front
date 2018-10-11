@@ -34,7 +34,7 @@ class Cadastrar extends Component {
         };
 
         if(password !== passwordRepetida) {
-            alert('As passwords devem ser iguais!');
+            alert('As senhas devem ser iguais!');
         } else {
 
             fetch(url, fetchParams)
