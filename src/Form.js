@@ -10,7 +10,7 @@ class Form extends Component {
         this.initialState = {            
             descricao: '',
             valor: 0,
-            dataInicial: '',
+            data: '',
             duracao: 0,
             isEntrada: false,
             isFixa: false,
@@ -76,19 +76,19 @@ class Form extends Component {
 
     renderDuracao() {
 
-        const {dataInicial, duracao, isFixa} = this.state;
+        const {data, duracao, isFixa} = this.state;
 
         if(isFixa) {
 
             return(
                 <div className="form-row">                       
                     <div className="form-group col-md-6">
-                        <label htmlFor="dataInicial">Data inicial</label>
+                        <label htmlFor="data">Data inicial</label>
                         <input 
                             type="date" 
-                            name="dataInicial" 
-                            id="dataInicial"
-                            value={dataInicial} 
+                            name="data" 
+                            id="data"
+                            value={data} 
                             onChange={this.handleChange}
                             className="form-control"   
                         />
@@ -112,12 +112,12 @@ class Form extends Component {
             return(
                 <div className="form-row">
                     <div className="form-group col-md-6">
-                        <label htmlFor="dataInicial">Data</label>
+                        <label htmlFor="data">Data</label>
                         <input 
                             type="date" 
-                            name="dataInicial" 
-                            id="dataInicial"
-                            value={dataInicial} 
+                            name="data" 
+                            id="data"
+                            value={data} 
                             onChange={this.handleChange}
                             className="form-control"   
                         />

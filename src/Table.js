@@ -200,7 +200,7 @@ class Table extends Component {
                     <div className="col-sm-2">
                         <label htmlFor="mes" className="font-weight-bold">Mês/Ano</label>
                     </div>
-                    <div className="col-sm-6">
+                    <div className="col-sm-7">
                         <input id="mes" name="mes" type="month" className="form-control" onChange={this.onChangeSelecionaData}></input>
                     </div>
                     
@@ -276,10 +276,10 @@ class Table extends Component {
                             }
                         },
                         {
-                            Header: "Data Inicial",
-                            accessor: "dataInicial",
+                            Header: "Data",
+                            accessor: "data",
                             Cell: (row) => {
-                                return this.formataData(row.original.dataInicial);
+                                return this.formataData(row.original.data);
                             }
                         },
                         {
