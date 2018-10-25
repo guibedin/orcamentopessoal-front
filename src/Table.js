@@ -112,22 +112,25 @@ class Table extends Component {
 
     removeConta = id => {
 
-        let contaRemovida;
-        const {mes, ano} = this.state;
+        const fetchHeader = new Headers({
+            "Content-Type": 'application/json',
+            "Authorization": 'Bearer ' + localStorage.getItem("auth-token")
+        });
 
+        let contaRemovida;
+        
         const url = "http://localhost:8080/contas/remove/" + id;
         var fetchParams = {
             method: 'DELETE', 
             body: JSON.stringify(contaRemovida), 
-            headers: {"Content-Type": 'application/json'}
+            headers: fetchHeader
         };
 
         fetch(url, fetchParams)
             .then(response => {
                 if(response.ok) {
                     alert('Conta removida com sucesso!')
-                    this.setState(this.initialState);
-                    //this.getContasTodas();
+                    this.getContasTodas();
                 } else {
                     alert('Erro ao remover conta!');
                 }

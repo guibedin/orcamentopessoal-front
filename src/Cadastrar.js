@@ -10,7 +10,8 @@ class Cadastrar extends Component {
             username: '',
             password: '',
             passwordRepetida: '',
-            email: ''
+            email: '',
+            redirect: false
         };
 
         this.state = this.initialState;
@@ -40,8 +41,8 @@ class Cadastrar extends Component {
             fetch(url, fetchParams)
                 .then(response => {
                     if(response.ok) {
-                        alert('Usuário cadastrado com sucesso, por favor faça login')
-                        console.log(response.text());
+                        alert('Usuário cadastrado com sucesso, você será redirecionado.')
+                        this.setState({redirect: true})
                     }
                     else {
                         throw new Error(response.text());
@@ -50,19 +51,15 @@ class Cadastrar extends Component {
                 .catch(error => {
                     console.log(error);
                 })
-        }
-        
-        
-        console.log(username, email, password, passwordRepetida);
+        }        
+        //console.log(username, email, password, passwordRepetida);
     }
 
     render() {
 
-        const {username, email, password, passwordRepetida} = this.state;
+        const {username, email, password, passwordRepetida, redirect} = this.state;
 
-        if(localStorage.getItem("auth-token") !== null) {
-            alert("Você já está logado!");
-
+        if(localStorage.getItem("auth-token") !== null || redirect == true) {            
             return(<Redirect to="/contas/lista"/>)
         } 
         return(

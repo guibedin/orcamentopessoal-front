@@ -49,7 +49,7 @@ class Login extends Component {
         
         fetch(url, fetchParams)
             .then(response => {
-                console.log(response);
+                //console.log(response);
                 if(response.ok) {
                     return response.text();                    
                 } else {
@@ -57,7 +57,7 @@ class Login extends Component {
                 }
             })
             .then(token => {
-                console.log("jwt token: " + token);
+                //console.log("jwt token: " + token);
                 localStorage.setItem("auth-token", token);
                 this.setState({redirect: true});
             })
