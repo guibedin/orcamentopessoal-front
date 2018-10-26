@@ -25,7 +25,7 @@ class Cadastrar extends Component {
 
         evento.preventDefault();
 
-        const {username, email, password, passwordRepetida} = this.state;
+        const {password, passwordRepetida} = this.state;
         const url = new URL("http://localhost:8080/usuario/cadastrar/");
         
         const fetchParams = {
@@ -59,7 +59,7 @@ class Cadastrar extends Component {
 
         const {username, email, password, passwordRepetida, redirect} = this.state;
 
-        if(localStorage.getItem("auth-token") !== null || redirect == true) {            
+        if(localStorage.getItem("auth-token") !== null || redirect === true) {            
             return(<Redirect to="/contas/lista"/>)
         } 
         return(

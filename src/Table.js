@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router-dom';
 import ReactTable from 'react-table';
 import "react-table/react-table.css";
 import Moment from 'moment';
@@ -23,10 +24,10 @@ class Table extends Component {
             anoInicial: 0,
             mesFinal: 0,
             anoFinal: 0,
-            filtro: "tudo"            
+            filtro: "tudo",
+            redirect: false
         }
-        this.state = this.initialState;
-        
+        this.state = this.initialState;        
     }
 
     componentDidMount() {
@@ -59,15 +60,11 @@ class Table extends Component {
         //console.log(fetchHeader.get("Authorization"));
 
         fetch(url, {headers: fetchHeader})
-            .then(response => {
-                if(response.ok) {
-                    return response.json();
-                } else {                    
-                    return null;
-                }
+            .then(response => {            
+                return response.json();   
             })
             .then(response => {
-                if(response != null) {
+                if(typeof response.error === 'undefined') {
                     this.setState({
                         usuario: response,                        
                         totais: [{
@@ -80,6 +77,10 @@ class Table extends Component {
                             saldo: response.saldo
                         }]
                     });   
+                } else if(response.status === 401){
+                    alert('Por favor, faça login novamente!');
+                    localStorage.removeItem("auth-token");
+                    this.setState({redirect: true});
                 }
             })
             .catch(error => {
@@ -94,13 +95,13 @@ class Table extends Component {
         const {filtro} = this.state;
 
         if(filtro === "mesAno") {
-            this.setState({mes: parseInt(arr[1]), ano: parseInt(arr[0])});
+            this.setState({mes: parseInt(arr[1], 10), ano: parseInt(arr[0], 10)});
         } else {    
             if(event.target.name === "mesFinal") {
                 
-                this.setState({mesFinal: parseInt(arr[1]), anoFinal: parseInt(arr[0])});            
+                this.setState({mesFinal: parseInt(arr[1], 10), anoFinal: parseInt(arr[0], 10)});            
             } else {
-                this.setState({mesInicial: parseInt(arr[1]), anoInicial: parseInt(arr[0])}); 
+                this.setState({mesInicial: parseInt(arr[1], 10), anoInicial: parseInt(arr[0], 10)}); 
             } 
         }
     }
@@ -241,9 +242,12 @@ class Table extends Component {
     }
 
     render() {
-        const {usuario, totais} = this.state;
+        const {usuario, totais, redirect} = this.state;
         //console.log(usuario);
 
+        if(redirect === true) {            
+            return(<Redirect to="/login"/>)
+        } 
         return (
             <div className="container-fluid">
                 <div className="row">

@@ -3,10 +3,6 @@ import {Redirect} from 'react-router-dom';
 
 class Logout extends Component {
 
-    constructor() {
-        super();        
-    }
-
     componentWillMount() {
         localStorage.removeItem("auth-token");
     }

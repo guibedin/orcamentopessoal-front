@@ -26,7 +26,7 @@ class Form extends Component {
         if(name === "duracao" || name === "valor") {
             //console.log(name, value);
             this.setState({
-                [name]: parseInt(value)
+                [name]: parseInt(value, 10)
             });
         } if(name === "isEntrada" || name === "isFixa") {
             this.setState({
