@@ -11,8 +11,5 @@
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff",
-  "permissions": ["http://localhost/*","https://localhost/*", 
-    "https://orcamentopessoal.ddns.net/*",
-    "http://guibedin.github.io/", "https://guibedin.github.io/"] 
+  "background_color": "#ffffff"
 }
