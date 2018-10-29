@@ -17,7 +17,9 @@ class Table extends Component {
                 totalSaidaFixa: 0, 
                 totalSaidaVariavel: 0, 
                 totalSaidaGeral: 0, 
-                saldo: 0}],
+                saldoTotal: 0,
+                saldoParcial: 0
+            }],
             mes: 0,
             ano: 0,            
             mesInicial: 0,
@@ -37,19 +39,22 @@ class Table extends Component {
 
     getContasTodas = () => {
 
-        var url = new URL("http://localhost:8080/usuario/")
+        var url = new URL("https://orcamentopessoal.ddns.net:8443/usuario/");
+        //var url = new URL("http://localhost:8080/usuario/")
         this.fetchContas(url);        
     }
 
     getContasMesAno = (mes, ano) => {
        
-        var url = new URL(`http://localhost:8080/usuario/saldo/mes-ano/?mes=${mes}&ano=${ano}`);
+        var url = new URL(`https://orcamentopessoal.ddns.net:8443/usuario/saldo/mes-ano/?mes=${mes}&ano=${ano}`);
+        //var url = new URL(`http://localhost:8080/usuario/saldo/mes-ano/?mes=${mes}&ano=${ano}`);
         this.fetchContas(url);
     }
 
     getContasPeriodo = (mesInicial, anoInicial, mesFinal, anoFinal) => {
 
-        var url = new URL(`http://localhost:8080/usuario/saldo/periodo/?mesInicial=${mesInicial}&anoInicial=${anoInicial}&mesFinal=${mesFinal}&anoFinal=${anoFinal}`);
+        var url = new URL(`https://orcamentopessoal.ddns.net:8443/usuario/saldo/periodo/?mesInicial=${mesInicial}&anoInicial=${anoInicial}&mesFinal=${mesFinal}&anoFinal=${anoFinal}`);
+        //var url = new URL(`http://localhost:8080/usuario/saldo/periodo/?mesInicial=${mesInicial}&anoInicial=${anoInicial}&mesFinal=${mesFinal}&anoFinal=${anoFinal}`);
         this.fetchContas(url);
     }
 
@@ -74,7 +79,8 @@ class Table extends Component {
                             totalSaidaFixa: response.totalSaidaFixa, 
                             totalSaidaVariavel: response.totalSaidaVariavel, 
                             totalSaidaGeral: response.totalSaidaGeral, 
-                            saldo: response.saldo
+                            saldoTotal: response.saldoTotal,
+                            saldoParcial: response.saldoParcial
                         }]
                     });   
                 } else if(response.status === 401){
@@ -120,7 +126,8 @@ class Table extends Component {
 
         let contaRemovida;
         
-        const url = "http://localhost:8080/contas/remove/" + id;
+        const url = new URL(`https://orcamentopessoal.ddns.net:8443/contas/remove/${id}`);
+        //const url = "http://localhost:8080/contas/remove/" + id;
         var fetchParams = {
             method: 'DELETE', 
             body: JSON.stringify(contaRemovida), 
@@ -245,6 +252,7 @@ class Table extends Component {
         const {usuario, totais, redirect} = this.state;
         //console.log(usuario);
 
+        console.log(totais);
         if(redirect === true) {            
             return(<Redirect to="/login"/>)
         } 
@@ -374,7 +382,7 @@ class Table extends Component {
                 
 
                 <br/>
-                <p className="font-weight-bold">Total do periodo:</p>
+                <p className="font-weight-bold">Totais:</p>
                 
                 <ReactTable 
                     data={totais}
@@ -421,20 +429,37 @@ class Table extends Component {
                         },
                         {
                             Header: "Saldo",
-                            accessor: "saldo",
-                            Cell: (row) => {
-                                if(row.original.saldo >= 0) {
-                                    return <span className="text-success">(+) {row.original.saldo}</span>
-                                } else {
-                                    return <span className="text-danger">(-) {-row.original.saldo}</span>
+                            columns: [
+                                {
+                                    Header: "Saldo Parcial",
+                                    accessor: "saldoParcial",
+                                    Cell: (row) => {
+                                        if(row.original.saldoParcial >= 0) {
+                                            return <span className="text-success">(+) {row.original.saldoParcial}</span>
+                                        } else {
+                                            return <span className="text-danger">(-) {-row.original.saldoParcial}</span>
+                                        }
+                                    },
+                                    Footer: true ? <div/> : null               
+                                },
+                                {
+                                    Header: "Saldo Total",
+                                    accessor: "saldoTotal",
+                                    Cell: (row) => {
+                                        if(row.original.saldoTotal >= 0) {
+                                            return <span className="text-success">(+) {row.original.saldoTotal}</span>
+                                        } else {
+                                            return <span className="text-danger">(-) {-row.original.saldoTotal}</span>
+                                        }
+                                    },
+                                    Footer: true ? <div/> : null
                                 }
-                            }
-                            
+                            ]
                         }
                     ]}
                     defaultPageSize={1}
                     noDataText="Não existem contas!"
-                />                        
+                />
             </div>            
         );
     }
