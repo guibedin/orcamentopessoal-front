@@ -38,7 +38,7 @@ class Login extends Component {
         //localStorage.setItem("auth-token", "token");
         //this.setState({redirect: true});
         
-        const url = new URL("https://orcamentopessoal.ddns.net:8443/usuario/login/");
+        const url = new URL("https://orcamentopessoal.tech:8443/usuario/login/");
         //const url = new URL("http://localhost:8080/usuario/login/");
         const usuario = {username: this.state.username, password: this.state.password};
 

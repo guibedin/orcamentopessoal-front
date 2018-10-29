@@ -43,7 +43,7 @@ class Form extends Component {
         
         //console.log(conta);
 
-        const url = new URL("https://orcamentopessoal.ddns.net:8443/contas/nova");
+        const url = new URL("https://orcamentopessoal.tech:8443/contas/nova");
         //const url = "http://localhost:8080/contas/nova";
         const fetchHeader = new Headers({
             "Content-Type": 'application/json',

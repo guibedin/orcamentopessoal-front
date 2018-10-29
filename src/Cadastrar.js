@@ -26,7 +26,7 @@ class Cadastrar extends Component {
         evento.preventDefault();
 
         const {password, passwordRepetida} = this.state;
-        const url = new URL("https://orcamentopessoal.ddns.net:8443/usuario/cadastrar/");
+        const url = new URL("https://orcamentopessoal.tech:8443/usuario/cadastrar/");
         //const url = new URL("http://localhost:8080/usuario/cadastrar/");
         
         const fetchParams = {

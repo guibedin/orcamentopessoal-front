@@ -39,21 +39,21 @@ class Table extends Component {
 
     getContasTodas = () => {
 
-        var url = new URL("https://orcamentopessoal.ddns.net:8443/usuario/");
+        var url = new URL("https://orcamentopessoal.tech:8443/usuario/");
         //var url = new URL("http://localhost:8080/usuario/")
         this.fetchContas(url);        
     }
 
     getContasMesAno = (mes, ano) => {
        
-        var url = new URL(`https://orcamentopessoal.ddns.net:8443/usuario/saldo/mes-ano/?mes=${mes}&ano=${ano}`);
+        var url = new URL(`https://orcamentopessoal.tech:8443/usuario/saldo/mes-ano/?mes=${mes}&ano=${ano}`);
         //var url = new URL(`http://localhost:8080/usuario/saldo/mes-ano/?mes=${mes}&ano=${ano}`);
         this.fetchContas(url);
     }
 
     getContasPeriodo = (mesInicial, anoInicial, mesFinal, anoFinal) => {
 
-        var url = new URL(`https://orcamentopessoal.ddns.net:8443/usuario/saldo/periodo/?mesInicial=${mesInicial}&anoInicial=${anoInicial}&mesFinal=${mesFinal}&anoFinal=${anoFinal}`);
+        var url = new URL(`https://orcamentopessoal.tech:8443/usuario/saldo/periodo/?mesInicial=${mesInicial}&anoInicial=${anoInicial}&mesFinal=${mesFinal}&anoFinal=${anoFinal}`);
         //var url = new URL(`http://localhost:8080/usuario/saldo/periodo/?mesInicial=${mesInicial}&anoInicial=${anoInicial}&mesFinal=${mesFinal}&anoFinal=${anoFinal}`);
         this.fetchContas(url);
     }
@@ -126,7 +126,7 @@ class Table extends Component {
 
         let contaRemovida;
         
-        const url = new URL(`https://orcamentopessoal.ddns.net:8443/contas/remove/${id}`);
+        const url = new URL(`https://orcamentopessoal.tech:8443/contas/remove/${id}`);
         //const url = "http://localhost:8080/contas/remove/" + id;
         var fetchParams = {
             method: 'DELETE', 
