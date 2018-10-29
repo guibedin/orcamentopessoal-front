@@ -252,7 +252,6 @@ class Table extends Component {
         const {usuario, totais, redirect} = this.state;
         //console.log(usuario);
 
-        console.log(totais);
         if(redirect === true) {            
             return(<Redirect to="/login"/>)
         } 
